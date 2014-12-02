@@ -4,7 +4,7 @@ var events = require('events')
 
 function MockResponse(cb) {
   events.EventEmitter.call(this);
-  
+
   this.statusCode = 200;
   this.locals = {};
   this._headers = {};

@@ -15,32 +15,32 @@ function MockLocomotive() {
     var key = controller + '#' + action;
     return self._routes[key];
   }
-  
+
   this._helpers = {};
   this._dynamicHelpers = {};
 }
 
-MockLocomotive.prototype.helper = 
+MockLocomotive.prototype.helper =
 MockLocomotive.prototype.helpers = function(obj, fn) {
   if (fn) {
     var name = obj;
     obj = {};
     obj[name] = fn;
   }
-  
+
   for (var method in obj) {
     this._helpers[method] = obj[method];
   }
 }
 
-MockLocomotive.prototype.dynamicHelper = 
+MockLocomotive.prototype.dynamicHelper =
 MockLocomotive.prototype.dynamicHelpers = function(obj, fn) {
   if (fn) {
     var name = obj;
     obj = {};
     obj[name] = fn;
   }
-  
+
   for (var method in obj) {
     this._dynamicHelpers[method] = obj[method];
   }
@@ -88,14 +88,14 @@ function intializedRouter() {
       return { controller: controller, action: action };
     };
   }
-  
+
   router.init(http, { handle: handle });
   return router;
 }
 
 
 vows.describe('Router').addBatch({
-  
+
   /*
   // OK
   'router with root route': {
@@ -104,7 +104,7 @@ vows.describe('Router').addBatch({
       router.root('pages#main');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('PagesController', 'main');
       assert.equal(route.method, 'get');
@@ -118,7 +118,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'main');
     },
   },
-  
+
   // OK
   'router with match route given shorthand': {
     topic: function() {
@@ -126,7 +126,7 @@ vows.describe('Router').addBatch({
       router.match('songs/:title', 'songs#show');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'show');
       assert.equal(route.method, 'get');
@@ -140,7 +140,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'show');
     },
   },
-  
+
   // OK
   'router with match route with underscored path': {
     topic: function() {
@@ -148,7 +148,7 @@ vows.describe('Router').addBatch({
       router.match('foo_bar', 'foo_bar#list');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('FooBarController', 'list');
       assert.equal(route.method, 'get');
@@ -162,7 +162,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'list');
     },
   },
-  
+
   // OK
   'router with match route with dasherized path': {
     topic: function() {
@@ -170,7 +170,7 @@ vows.describe('Router').addBatch({
       router.match('foo-bar', 'foo_bar#list');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('FooBarController', 'list');
       assert.equal(route.method, 'get');
@@ -184,7 +184,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'list');
     },
   },
-  
+
   // OK
   'router with match route given controller and action options': {
     topic: function() {
@@ -192,7 +192,7 @@ vows.describe('Router').addBatch({
       router.match('bands', { controller: 'bands', action: 'list' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'list');
       assert.equal(route.method, 'get');
@@ -206,7 +206,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'list');
     },
   },
-  
+
   // OK
   'router with match route given shorthand and via option': {
     topic: function() {
@@ -214,7 +214,7 @@ vows.describe('Router').addBatch({
       router.match('bands', 'bands#create', { via: 'post' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
@@ -228,7 +228,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with match route given shorthand and capitalized via option': {
     topic: function() {
@@ -236,7 +236,7 @@ vows.describe('Router').addBatch({
       router.match('bands', 'bands#create', { via: 'PUT' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'put');
@@ -250,7 +250,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with match route given shorthand and via option using array of methods': {
     topic: function() {
@@ -258,7 +258,7 @@ vows.describe('Router').addBatch({
       router.match('bands', 'bands#create', { via: ['get', 'post'] });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'get');
@@ -276,7 +276,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[1].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with match route given controller, action, and via options': {
     topic: function() {
@@ -284,7 +284,7 @@ vows.describe('Router').addBatch({
       router.match('bands', { controller: 'bands', action: 'create', via: 'post' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
@@ -298,7 +298,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with match route specified with a preceding slash': {
     topic: function() {
@@ -306,7 +306,7 @@ vows.describe('Router').addBatch({
       router.match('/songs/:title', 'songs#show');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'show');
       assert.equal(route.method, 'get');
@@ -320,17 +320,17 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'show');
     },
   },
-  
+
   // OK
   'router with match route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -343,17 +343,17 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1, { via: 'post' });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -366,17 +366,17 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1, { via: 'POST' });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -389,17 +389,17 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1, { via: ['get', 'post'] });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 2);
       var route = router._http._routes[0];
@@ -416,18 +416,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', [ middleware1, middleware2 ]);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -442,18 +442,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to array of middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', [ middleware1, middleware2 ], { via: 'post' });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -468,18 +468,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to array of middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', [ middleware1, middleware2 ], { via: 'POST' });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -494,18 +494,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to array of middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', [ middleware1, middleware2 ], { via: ['get', 'post'] });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 2);
       var route = router._http._routes[0];
@@ -526,18 +526,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1, middleware2);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -552,18 +552,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route to multiple middleware function arguments with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.match('lyrics', middleware1, middleware2, { via: 'post' });
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -578,7 +578,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with match route that declares helpers': {
     topic: function() {
@@ -586,7 +586,7 @@ vows.describe('Router').addBatch({
       router.match('songs', 'songs#list', { as: 'songs' });
       return router;
     },
-    
+
     'should declare routing helpers': function (router) {
       assert.isFunction(router._app._helpers.songsPath);
       assert.isFunction(router._app._dynamicHelpers.songsURL);
@@ -594,7 +594,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(songsURL);
     },
   },
-  
+
   // OK
   'router with get route given shorthand': {
     topic: function() {
@@ -602,7 +602,7 @@ vows.describe('Router').addBatch({
       router.get('songs/:title', 'songs#show');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'show');
       assert.equal(route.method, 'get');
@@ -616,7 +616,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'show');
     },
   },
-  
+
   // OK
   'router with get route given controller and action options': {
     topic: function() {
@@ -624,7 +624,7 @@ vows.describe('Router').addBatch({
       router.get('bands', { controller: 'bands', action: 'list' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'list');
       assert.equal(route.method, 'get');
@@ -638,7 +638,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'list');
     },
   },
-  
+
   // OK
   'router with get route using shorthand that declares helpers': {
     topic: function() {
@@ -646,7 +646,7 @@ vows.describe('Router').addBatch({
       router.get('songs', 'songs#list', { as: 'songs' });
       return router;
     },
-    
+
     'should declare routing helpers': function (router) {
       assert.isFunction(router._app._helpers.songsPath);
       assert.isFunction(router._app._dynamicHelpers.songsURL);
@@ -654,7 +654,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(songsURL);
     },
   },
-  
+
   // OK
   'router with get route given controller and action options that declares helpers': {
     topic: function() {
@@ -662,7 +662,7 @@ vows.describe('Router').addBatch({
       router.get('bands', { controller: 'bands', action: 'list', as: 'bands' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'list');
       assert.equal(route.method, 'get');
@@ -682,17 +682,17 @@ vows.describe('Router').addBatch({
       assert.isFunction(bandsURL);
     },
   },
-  
+
   // OK
   'router with get route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.get('lyrics', middleware1);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -705,18 +705,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with get route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.get('lyrics', [ middleware1, middleware2 ]);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -731,18 +731,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with get route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.get('lyrics', middleware1, middleware2);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -757,7 +757,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with post route given shorthand': {
     topic: function() {
@@ -765,7 +765,7 @@ vows.describe('Router').addBatch({
       router.post('songs/:title', 'songs#create');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'create');
       assert.equal(route.method, 'post');
@@ -779,7 +779,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with post route given controller and action options': {
     topic: function() {
@@ -787,7 +787,7 @@ vows.describe('Router').addBatch({
       router.post('bands', { controller: 'bands', action: 'create' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
@@ -801,7 +801,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
     },
   },
-  
+
   // OK
   'router with post route using shorthand that declares helpers': {
     topic: function() {
@@ -809,7 +809,7 @@ vows.describe('Router').addBatch({
       router.post('songs', 'songs#create', { as: 'songs' });
       return router;
     },
-    
+
     'should declare routing helpers': function (router) {
       assert.isFunction(router._app._helpers.songsPath);
       assert.isFunction(router._app._dynamicHelpers.songsURL);
@@ -817,7 +817,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(songsURL);
     },
   },
-  
+
   // OK
   'router with post route given controller and action options that declares helpers': {
     topic: function() {
@@ -825,7 +825,7 @@ vows.describe('Router').addBatch({
       router.post('bands', { controller: 'bands', action: 'create', as: 'bands' });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
@@ -845,17 +845,17 @@ vows.describe('Router').addBatch({
       assert.isFunction(bandsURL);
     },
   },
-  
+
   // OK
   'router with post route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.post('lyrics', middleware1);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -868,18 +868,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with post route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.post('lyrics', [ middleware1, middleware2 ]);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -894,18 +894,18 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with post route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
       function middleware2(req, res, next) {};
-      
+
       var router = intializedRouter()
       router.post('lyrics', middleware1, middleware2);
       return router;
     },
-    
+
     'should mount route directly on express': function (router) {
       assert.lengthOf(router._http._routes, 1);
       var route = router._http._routes[0];
@@ -920,7 +920,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._routes.find);
     },
   },
-  
+
   // OK
   'router with put route given shorthand': {
     topic: function() {
@@ -928,7 +928,7 @@ vows.describe('Router').addBatch({
       router.put('songs/:title', 'songs#update');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'update');
       assert.equal(route.method, 'put');
@@ -942,7 +942,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'update');
     },
   },
-  
+
   // OK
   'router with del route given shorthand': {
     topic: function() {
@@ -950,7 +950,7 @@ vows.describe('Router').addBatch({
       router.del('songs/:title', 'songs#destroy');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'destroy');
       assert.equal(route.method, 'del');
@@ -964,7 +964,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'destroy');
     },
   },
-  
+
   // OK
   'router with delete route given shorthand': {
     topic: function() {
@@ -972,7 +972,7 @@ vows.describe('Router').addBatch({
       router.delete('songs/:title', 'songs#destroy');
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('SongsController', 'destroy');
       assert.equal(route.method, 'del');
@@ -986,7 +986,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'destroy');
     },
   },
-  
+
   // OK
   'router with resource route': {
     topic: function() {
@@ -994,7 +994,7 @@ vows.describe('Router').addBatch({
       router.resource('profile');
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 6);
     },
@@ -1068,13 +1068,13 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.profilePath);
       assert.isFunction(router._app._helpers.newProfilePath);
       assert.isFunction(router._app._helpers.editProfilePath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.profileURL);
       assert.isFunction(router._app._dynamicHelpers.newProfileURL);
       assert.isFunction(router._app._dynamicHelpers.editProfileURL);
     },
   },
-  
+
   // OK
   'router with resource route with underscored path': {
     topic: function() {
@@ -1082,7 +1082,7 @@ vows.describe('Router').addBatch({
       router.resource('foo_bar');
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 6);
     },
@@ -1156,13 +1156,13 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.fooBarPath);
       assert.isFunction(router._app._helpers.newFooBarPath);
       assert.isFunction(router._app._helpers.editFooBarPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.fooBarURL);
       assert.isFunction(router._app._dynamicHelpers.newFooBarURL);
       assert.isFunction(router._app._dynamicHelpers.editFooBarURL);
     },
   },
-  
+
   // OK
   'router with resource route with dasherized path': {
     topic: function() {
@@ -1170,7 +1170,7 @@ vows.describe('Router').addBatch({
       router.resource('foo-bar');
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 6);
     },
@@ -1244,13 +1244,13 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.fooBarPath);
       assert.isFunction(router._app._helpers.newFooBarPath);
       assert.isFunction(router._app._helpers.editFooBarPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.fooBarURL);
       assert.isFunction(router._app._dynamicHelpers.newFooBarURL);
       assert.isFunction(router._app._dynamicHelpers.editFooBarURL);
     },
   },
-  
+
   // OK
   'router with resource route and only one action': {
     topic: function() {
@@ -1259,7 +1259,7 @@ vows.describe('Router').addBatch({
       return router;
     },
   },
-  
+
   // OK
   'router with resource route and only some actions': {
     topic: function() {
@@ -1267,7 +1267,7 @@ vows.describe('Router').addBatch({
       router.resource('profile', { only: [ 'show', 'edit', 'update' ] });
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 3);
     },
@@ -1287,7 +1287,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.pattern, '/profile');
     },
   },
-  
+
   // OK
   'router with resource route excepting one action': {
     topic: function() {
@@ -1295,12 +1295,12 @@ vows.describe('Router').addBatch({
       router.resource('profile', { except: 'destroy' });
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 5);
     },
   },
-  
+
   // OK
   'router with resource route excepting some actions': {
     topic: function() {
@@ -1308,7 +1308,7 @@ vows.describe('Router').addBatch({
       router.resource('profile', { except: [ 'new', 'create', 'destroy' ] });
       return router;
     },
-    
+
     'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 3);
     },
@@ -1328,7 +1328,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.pattern, '/profile');
     },
   },
-  
+
   // OK
   'router with resources route': {
     topic: function() {
@@ -1336,7 +1336,7 @@ vows.describe('Router').addBatch({
       router.resources('bands');
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 7);
     },
@@ -1422,14 +1422,14 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.bandPath);
       assert.isFunction(router._app._helpers.newBandPath);
       assert.isFunction(router._app._helpers.editBandPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.bandsURL);
       assert.isFunction(router._app._dynamicHelpers.bandURL);
       assert.isFunction(router._app._dynamicHelpers.newBandURL);
       assert.isFunction(router._app._dynamicHelpers.editBandURL);
     },
   },
-  
+
   // OK
   'router with resources route with underscored path': {
     topic: function() {
@@ -1437,7 +1437,7 @@ vows.describe('Router').addBatch({
       router.resources('foo_bars');
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 7);
     },
@@ -1523,14 +1523,14 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.fooBarPath);
       assert.isFunction(router._app._helpers.newFooBarPath);
       assert.isFunction(router._app._helpers.editFooBarPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.fooBarsURL);
       assert.isFunction(router._app._dynamicHelpers.fooBarURL);
       assert.isFunction(router._app._dynamicHelpers.newFooBarURL);
       assert.isFunction(router._app._dynamicHelpers.editFooBarURL);
     },
   },
-  
+
   // OK
   'router with resources route with dasherized path': {
     topic: function() {
@@ -1538,7 +1538,7 @@ vows.describe('Router').addBatch({
       router.resources('foo-bars');
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 7);
     },
@@ -1624,14 +1624,14 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.fooBarPath);
       assert.isFunction(router._app._helpers.newFooBarPath);
       assert.isFunction(router._app._helpers.editFooBarPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.fooBarsURL);
       assert.isFunction(router._app._dynamicHelpers.fooBarURL);
       assert.isFunction(router._app._dynamicHelpers.newFooBarURL);
       assert.isFunction(router._app._dynamicHelpers.editFooBarURL);
     },
   },
-  
+
   // OK
   'router with resources route and only one action': {
     topic: function() {
@@ -1639,7 +1639,7 @@ vows.describe('Router').addBatch({
       router.resources('bands', { only: 'show' });
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 1);
     },
@@ -1649,7 +1649,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.pattern, '/bands/:id.:format?');
     },
   },
-  
+
   // OK
   'router with resources route and only some actions': {
     topic: function() {
@@ -1657,7 +1657,7 @@ vows.describe('Router').addBatch({
       router.resources('bands', { only: [ 'index', 'show' ] });
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 2);
     },
@@ -1672,7 +1672,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.pattern, '/bands/:id.:format?');
     },
   },
-  
+
   // OK
   'router with resources route excepting one action': {
     topic: function() {
@@ -1680,12 +1680,12 @@ vows.describe('Router').addBatch({
       router.resources('bands', { except: 'destroy' });
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 6);
     },
   },
-  
+
   // OK
   'router with resources route excepting some actions': {
     topic: function() {
@@ -1693,7 +1693,7 @@ vows.describe('Router').addBatch({
       router.resources('bands', { except: [ 'new', 'create', 'edit', 'update', 'destroy' ] });
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 2);
     },
@@ -1708,7 +1708,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.pattern, '/bands/:id.:format?');
     },
   },
-  
+
   // OK
   'router with resource nested under resource': {
     topic: function() {
@@ -1718,7 +1718,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount twelve routes': function (router) {
       assert.lengthOf(router._http._routes, 12);
     },
@@ -1791,14 +1791,14 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 6);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 6);
-      
+
       assert.isFunction(router._app._helpers.accountPath);
       assert.isFunction(router._app._helpers.newAccountPath);
       assert.isFunction(router._app._helpers.editAccountPath);
       assert.isFunction(router._app._helpers.accountPasswordPath);
       assert.isFunction(router._app._helpers.newAccountPasswordPath);
       assert.isFunction(router._app._helpers.editAccountPasswordPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.accountURL);
       assert.isFunction(router._app._dynamicHelpers.newAccountURL);
       assert.isFunction(router._app._dynamicHelpers.editAccountURL);
@@ -1807,7 +1807,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editAccountPasswordURL);
     },
   },
-  
+
   // OK
   'router with resource nested under resource using namespace option': {
     topic: function() {
@@ -1817,7 +1817,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount twelve routes': function (router) {
       assert.lengthOf(router._http._routes, 12);
     },
@@ -1890,14 +1890,14 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 6);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 6);
-      
+
       assert.isFunction(router._app._helpers.accountPath);
       assert.isFunction(router._app._helpers.newAccountPath);
       assert.isFunction(router._app._helpers.editAccountPath);
       assert.isFunction(router._app._helpers.accountPasswordPath);
       assert.isFunction(router._app._helpers.newAccountPasswordPath);
       assert.isFunction(router._app._helpers.editAccountPasswordPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.accountURL);
       assert.isFunction(router._app._dynamicHelpers.newAccountURL);
       assert.isFunction(router._app._dynamicHelpers.editAccountURL);
@@ -1906,7 +1906,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editAccountPasswordURL);
     },
   },
-  
+
   // OK
   'router with resources nested under resource': {
     topic: function() {
@@ -1916,7 +1916,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount fourteen routes': function (router) {
       assert.lengthOf(router._http._routes, 13);
     },
@@ -2000,7 +2000,7 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 7);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 7);
-      
+
       assert.isFunction(router._app._helpers.settingsPath);
       assert.isFunction(router._app._helpers.newSettingsPath);
       assert.isFunction(router._app._helpers.editSettingsPath);
@@ -2008,7 +2008,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.settingsAccountPath);
       assert.isFunction(router._app._helpers.newSettingsAccountPath);
       assert.isFunction(router._app._helpers.editSettingsAccountPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.settingsURL);
       assert.isFunction(router._app._dynamicHelpers.newSettingsURL);
       assert.isFunction(router._app._dynamicHelpers.editSettingsURL);
@@ -2018,7 +2018,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editSettingsAccountURL);
     },
   },
-  
+
   // OK
   'router with resource nested under resources': {
     topic: function() {
@@ -2028,7 +2028,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount thirteen routes': function (router) {
       assert.lengthOf(router._http._routes, 13);
     },
@@ -2101,7 +2101,7 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 7);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 7);
-      
+
       assert.isFunction(router._app._helpers.bandsPath);
       assert.isFunction(router._app._helpers.bandPath);
       assert.isFunction(router._app._helpers.newBandPath);
@@ -2109,7 +2109,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.bandBioPath);
       assert.isFunction(router._app._helpers.newBandBioPath);
       assert.isFunction(router._app._helpers.editBandBioPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.bandsURL);
       assert.isFunction(router._app._dynamicHelpers.bandURL);
       assert.isFunction(router._app._dynamicHelpers.newBandURL);
@@ -2119,7 +2119,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editBandBioURL);
     },
   },
-  
+
   // OK
   'router with resources nested under resources': {
     topic: function() {
@@ -2129,7 +2129,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount fourteen routes': function (router) {
       assert.lengthOf(router._http._routes, 14);
     },
@@ -2213,7 +2213,7 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 8);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 8);
-      
+
       assert.isFunction(router._app._helpers.bandsPath);
       assert.isFunction(router._app._helpers.bandPath);
       assert.isFunction(router._app._helpers.newBandPath);
@@ -2222,7 +2222,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.bandAlbumPath);
       assert.isFunction(router._app._helpers.newBandAlbumPath);
       assert.isFunction(router._app._helpers.editBandAlbumPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.bandsURL);
       assert.isFunction(router._app._dynamicHelpers.bandURL);
       assert.isFunction(router._app._dynamicHelpers.newBandURL);
@@ -2233,7 +2233,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editBandAlbumURL);
     },
   },
-  
+
   // OK
   'router with resources nested under resources using namespace option': {
     topic: function() {
@@ -2243,7 +2243,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount fourteen routes': function (router) {
       assert.lengthOf(router._http._routes, 14);
     },
@@ -2327,7 +2327,7 @@ vows.describe('Router').addBatch({
     'should declare routing helpers': function (router) {
       assert.lengthOf(Object.keys(router._app._helpers), 8);
       assert.lengthOf(Object.keys(router._app._dynamicHelpers), 8);
-      
+
       assert.isFunction(router._app._helpers.bandsPath);
       assert.isFunction(router._app._helpers.bandPath);
       assert.isFunction(router._app._helpers.newBandPath);
@@ -2336,7 +2336,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.bandAlbumPath);
       assert.isFunction(router._app._helpers.newBandAlbumPath);
       assert.isFunction(router._app._helpers.editBandAlbumPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.bandsURL);
       assert.isFunction(router._app._dynamicHelpers.bandURL);
       assert.isFunction(router._app._dynamicHelpers.newBandURL);
@@ -2347,7 +2347,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editBandAlbumURL);
     },
   },
-  
+
   // OK
   'router with root route in a namespace': {
     topic: function() {
@@ -2357,7 +2357,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('Top40::PagesController', 'main');
       assert.equal(route.method, 'get');
@@ -2371,7 +2371,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'main');
     },
   },
-  
+
   // OK
   'router with match route in a namespace': {
     topic: function() {
@@ -2381,7 +2381,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('Top40::SongsController', 'show');
       assert.equal(route.method, 'get');
@@ -2401,7 +2401,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(songsURL);
     },
   },
-  
+
   // OK
   'router with match route specified with preceeding slash in a namespace': {
     topic: function() {
@@ -2411,7 +2411,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should create route': function (router) {
       var route = router.find('Top40::BandsController', 'show');
       assert.equal(route.method, 'get');
@@ -2425,7 +2425,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'show');
     },
   },
-  
+
   // OK
   'router with resources route in a namespace': {
     topic: function() {
@@ -2435,7 +2435,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 7);
     },
@@ -2455,7 +2455,7 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._helpers.adminPostPath);
       assert.isFunction(router._app._helpers.newAdminPostPath);
       assert.isFunction(router._app._helpers.editAdminPostPath);
-      
+
       assert.isFunction(router._app._dynamicHelpers.adminPostsURL);
       assert.isFunction(router._app._dynamicHelpers.adminPostURL);
       assert.isFunction(router._app._dynamicHelpers.newAdminPostURL);
@@ -2463,8 +2463,8 @@ vows.describe('Router').addBatch({
     },
   },
   */
-  
-  
+
+
   // FIXME: Port this test
   /*
   'routing helpers for patterns without a placeholder': {
@@ -2473,7 +2473,7 @@ vows.describe('Router').addBatch({
       router.match('songs', 'songs#index', { as: 'songs' });
       return router;
     },
-    
+
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
       var app = new MockLocomotive();
@@ -2483,15 +2483,15 @@ vows.describe('Router').addBatch({
       req._locomotive = {};
       req._locomotive.app = app;
       var res = new MockResponse();
-      
+
       var context = {};
       context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
-      
+
       assert.isFunction(router._app._helpers.songsPath);
       var songsPath = router._app._helpers.songsPath.bind(context)
       assert.equal(songsPath(), '/songs');
-      
+
       assert.isFunction(router._app._dynamicHelpers.songsURL);
       var songsURL = router._app._dynamicHelpers.songsURL(req, res).bind(context);
       assert.isFunction(songsURL);
@@ -2499,7 +2499,7 @@ vows.describe('Router').addBatch({
     },
   },
   */
-  
+
   // FIXME: Port this test
   /*
   'routing helpers for patterns with a placeholder': {
@@ -2508,7 +2508,7 @@ vows.describe('Router').addBatch({
       router.match('songs/:id', 'songs#show', { as: 'song' });
       return router;
     },
-    
+
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
       var app = new MockLocomotive();
@@ -2518,17 +2518,17 @@ vows.describe('Router').addBatch({
       req._locomotive = {};
       req._locomotive.app = app;
       var res = new MockResponse();
-      
+
       var context = {};
       context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
-      
+
       assert.isFunction(router._app._helpers.songPath);
       var songPath = router._app._helpers.songPath.bind(context)
       assert.equal(songPath(7), '/songs/7');
       assert.equal(songPath('mr-jones'), '/songs/mr-jones');
       assert.equal(songPath({ id: 101 }), '/songs/101');
-      
+
       assert.isFunction(router._app._dynamicHelpers.songURL);
       var songURL = router._app._dynamicHelpers.songURL(req, res).bind(context);
       assert.isFunction(songURL);
@@ -2538,7 +2538,7 @@ vows.describe('Router').addBatch({
     },
   },
   */
-  
+
   // FIXME: Port this test
   /*
   'routing helpers for resources nested under resources': {
@@ -2549,7 +2549,7 @@ vows.describe('Router').addBatch({
       });
       return router;
     },
-    
+
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
       var app = new MockLocomotive();
@@ -2559,17 +2559,17 @@ vows.describe('Router').addBatch({
       req._locomotive = {};
       req._locomotive.app = app;
       var res = new MockResponse();
-      
+
       var context = {};
       context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
-      
+
       assert.isFunction(router._app._helpers.bandAlbumPath);
       var bandAlbumPath = router._app._helpers.bandAlbumPath.bind(context)
       assert.equal(bandAlbumPath(7, 8), '/bands/7/albums/8');
       assert.equal(bandAlbumPath('counting-crows', 'august-and-everything-after'), '/bands/counting-crows/albums/august-and-everything-after');
       assert.equal(bandAlbumPath({ id: 101 }, { id: 202 }), '/bands/101/albums/202');
-      
+
       assert.isFunction(router._app._dynamicHelpers.bandAlbumURL);
       var bandAlbumURL = router._app._dynamicHelpers.bandAlbumURL(req, res).bind(context);
       assert.isFunction(bandAlbumURL);
@@ -2579,5 +2579,5 @@ vows.describe('Router').addBatch({
     },
   },
   */
-  
+
 }).export(module);

@@ -58,14 +58,14 @@ NextController.prototype._invoke = function(action) {
 
 
 describe('middleware/dispatch', function() {
-  
+
   it('should be named dispatch', function() {
     expect(dispatch().name).to.equal('dispatch');
   });
-  
+
   describe('dispatching to controller that uses req and res', function() {
     var request, response;
-    
+
     var app = new MockApplication()
       , controller = new ReqResController();
     app._controllers['robots'] = controller;
@@ -82,21 +82,21 @@ describe('middleware/dispatch', function() {
         })
         .dispatch();
     });
-    
+
     it('should initialize controller', function() {
       expect(controller.__app).to.equal(app);
       expect(controller.__id).to.equal('robots');
     });
-    
+
     it('should respond', function() {
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.equal('/robots/noise -> beepBoop');
     });
   });
-  
+
   describe('dispatching to controller that uses next', function() {
     var error;
-    
+
     var app = new MockApplication()
       , controller = new NextController();
     app._controllers['robots'] = controller;
@@ -109,20 +109,20 @@ describe('middleware/dispatch', function() {
         })
         .dispatch();
     });
-    
+
     it('should initialize controller', function() {
       expect(controller.__app).to.equal(app);
       expect(controller.__id).to.equal('robots');
     });
-    
+
     it('should call next without error', function() {
       expect(error).to.be.undefined;
     });
   });
-  
+
   describe('dispatching to non-existant controller', function() {
     var error;
-    
+
     var app = new MockApplication();
 
     before(function(done) {
@@ -133,12 +133,12 @@ describe('middleware/dispatch', function() {
         })
         .dispatch();
     });
-    
+
     it('should error', function() {
       expect(error).to.be.an.instanceOf(Error);
       expect(error.constructor.name).to.equal('Error');
       expect(error.message).to.equal("Unable to create controller 'invalid'");
     });
   });
-  
+
 });
