@@ -40,6 +40,7 @@
     "commander": "^2.5.0",
     "debug": "^2.1.0",
     "express": "^4.10.4",
+    "mime-types": "^2.0.3",
     "mkdirp": "^0.5.0",
     "parent-require": "^1.0.0",
     "pkginfo": "^0.3.0",
@@ -58,6 +59,6 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
+    "test": "node_modules/.bin/mocha -b --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
   }
 }

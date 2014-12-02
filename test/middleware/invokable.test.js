@@ -78,10 +78,10 @@ describe('middleware/invokable', function() {
   it('should be named invokable', function() {
     expect(invokable().name).to.equal('invokable');
   });
-  
+
   describe('invoking with controller and action', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['robots'] = ReqResController;
 
@@ -101,33 +101,33 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
       before(function(done) {
         test.end(function() {
           done();
         });
-        
+
         request.invoke('robots', 'beepBoop', function(err) {
           if (err) { return done(err); }
           return done(new Error('should not call next'));
         });
       });
-      
+
       it('should respond', function() {
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.equal('/robots/noise -> robots#beepBoop');
       });
     });
   });
-  
+
   describe('invoking with namespaced controller and action using Ruby style', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['admin/foo'] = ReqResController;
 
@@ -147,33 +147,33 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
       before(function(done) {
         test.end(function() {
           done();
         });
-        
+
         request.invoke('Admin::FooController', 'bar_baz', function(err) {
           if (err) { return done(err); }
           return done(new Error('should not call next'));
         });
       });
-      
+
       it('should respond', function() {
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.equal('/admin/fbb -> admin/foo#barBaz');
       });
     });
   });
-  
+
   describe('invoking with shorthand notation', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['lorem'] = ReqResController;
 
@@ -192,34 +192,34 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
       before(function(done) {
         test.end(function() {
           done();
         });
-        
+
         request.invoke('lorem#ipsum', function(err) {
           if (err) { return done(err); }
           return done(new Error('should not call next'));
         });
       });
-      
+
       it('should respond', function() {
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.equal('/ -> lorem#ipsum');
       });
     });
   });
-  
-  
+
+
   describe('invoking controller that calls next', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['lorem'] = NextController;
 
@@ -238,11 +238,11 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
       before(function(done) {
         request.invoke('lorem', 'ipsum', function(err) {
@@ -250,17 +250,17 @@ describe('middleware/invokable', function() {
           return done();
         });
       });
-      
+
       it('should next', function() {
         // would fail with a timeout if `done()` were not invoked above
         expect(true).to.equal(true);
       });
     });
   });
-  
+
   describe('invoking controller that calls next with error to invoke that does supply callback', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['lorem'] = ErrorController;
 
@@ -279,31 +279,31 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
       var error;
-      
+
       before(function(done) {
         request.invoke('lorem', 'ipsum', function(err) {
           error = err;
           return done();
         });
       });
-      
+
       it('should next with error', function() {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('something went horribly wrong');
       });
     });
   });
-  
+
   describe('invoking controller that calls next with error to invoke that does not supply callback', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
     app._controllers['lorem'] = ErrorController;
 
@@ -322,26 +322,26 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invoke).to.be.a('function');
     });
-    
+
     describe('calling invoke', function() {
-      
+
       it('should throw', function() {
         expect(function() {
           request.invoke('lorem', 'ipsum');
         }).to.throw('something went horribly wrong');
       });
-    
+
     });
   });
-  
-  
+
+
   describe('with name option', function() {
     var test, request, response;
-    
+
     var app = new MockApplication();
 
     before(function(done) {
@@ -359,7 +359,7 @@ describe('middleware/invokable', function() {
         })
         .dispatch();
     });
-    
+
     it('should expose invoke on request', function() {
       expect(request.invokeit).to.be.a('function');
     });

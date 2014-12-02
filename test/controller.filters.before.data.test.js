@@ -4,7 +4,7 @@ var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
   , MockResponse = require('./mocks/response');
-  
+
 
 describe('Controller#before', function() {
 
@@ -76,7 +76,7 @@ describe('Controller#before', function() {
       expect(res.locals.song).to.equal('Mr. Jones');
     });
   });
-  
+
   describe('filters that pass data declared below action', function() {
     var app = new MockApplication();
     var controller = new Controller();
@@ -146,7 +146,7 @@ describe('Controller#before', function() {
       expect(res.locals.store).to.be.undefined;
     });
   });
-  
+
   describe('filters that pass data, for multiple actions, declared above action', function() {
     var app = new MockApplication();
     var proto = new Controller();
@@ -295,7 +295,7 @@ describe('Controller#before', function() {
       });
     });
   });
-  
+
   describe('filters that pass data, for multiple actions, declared below action', function() {
     var app = new MockApplication();
     var proto = new Controller();
@@ -444,7 +444,7 @@ describe('Controller#before', function() {
       });
     });
   });
-  
+
   describe('filters that pass data, for all actions, declared above action', function() {
     var app = new MockApplication();
     var proto = new Controller();
@@ -594,7 +594,7 @@ describe('Controller#before', function() {
       });
     });
   });
-  
+
   describe('filters that pass data, for all actions, declared below action', function() {
     var app = new MockApplication();
     var proto = new Controller();
@@ -744,7 +744,7 @@ describe('Controller#before', function() {
       });
     });
   });
-  
+
   describe('filter chain passing data that halts due to error', function() {
     var app = new MockApplication();
     var controller = new Controller();
@@ -806,7 +806,7 @@ describe('Controller#before', function() {
       expect(Object.keys(res.locals)).to.have.length(0);
     });
   });
-  
+
   describe('filter chain passing data that halts due to exception', function() {
     var app = new MockApplication();
     var controller = new Controller();
