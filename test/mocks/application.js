@@ -4,7 +4,7 @@ var snakeCase = snakeCase = require('../../lib/resolvers/any/snakecase')();
 function MockApplication() {
   this._controllers = {};
   this._formats = {};
-  
+
   this.views = { resolve: snakeCase };
 }
 

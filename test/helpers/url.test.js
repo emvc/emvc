@@ -1,10 +1,10 @@
 /* global describe, it, expect */
 
 var helpers = require('../../lib/helpers/url');
-  
+
 
 describe('helpers/url', function() {
-  
+
   describe('linkTo', function() {
     it('should build correct tag with URL', function() {
       expect(helpers.linkTo('/account')).to.equal('<a href="/account">/account</a>');
@@ -28,7 +28,7 @@ describe('helpers/url', function() {
       expect(helpers.linkTo('/foo-bar/', '"Foo Bar"')).to.equal('<a href="/foo-bar/">&quot;Foo Bar&quot;</a>');
     });
   });
-  
+
   describe('mailTo', function() {
     it('should build correct tag with email', function() {
       expect(helpers.mailTo('johndoe@example.com')).to.equal('<a href="mailto:johndoe@example.com">johndoe@example.com</a>');
@@ -49,5 +49,5 @@ describe('helpers/url', function() {
       expect(helpers.mailTo('parents@example.com', 'Mom & Dad')).to.equal('<a href="mailto:parents@example.com">Mom &amp; Dad</a>');
     });
   });
-  
+
 });
