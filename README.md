@@ -1,10 +1,9 @@
 # Locomotive
 
 [![Build Status](https://travis-ci.org/drudge/locomotive.svg?branch=feature%2Fexpress4)](https://travis-ci.org/drudge/locomotive)
-[![Coverage](https://coveralls.io/repos/drudge/locomotive/badge.png)](https://coveralls.io/r/drudge/locomotive)
+[![Coverage Status](https://coveralls.io/repos/drudge/locomotive/badge.svg?branch=feature%2Fexpress4)](https://coveralls.io/r/drudge/locomotive?branch=feature%2Fexpress4)
 [![Quality](https://codeclimate.com/github/drudge/locomotive.png)](https://codeclimate.com/github/drudge/locomotive)
 [![Dependencies](https://david-dm.org/drudge/locomotive.png)](https://david-dm.org/drudge/locomotive)
-[![Tips](http://img.shields.io/gittip/jaredhanson.png)](https://www.gittip.com/jaredhanson/)
 
 
 [http://locomotivejs.org](http://locomotivejs.org/)
