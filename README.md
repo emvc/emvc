@@ -1,9 +1,9 @@
 # Locomotive
 
-[![Build](https://travis-ci.org/jaredhanson/locomotive.png)](https://travis-ci.org/jaredhanson/locomotive)
-[![Coverage](https://coveralls.io/repos/jaredhanson/locomotive/badge.png)](https://coveralls.io/r/jaredhanson/locomotive)
-[![Quality](https://codeclimate.com/github/jaredhanson/locomotive.png)](https://codeclimate.com/github/jaredhanson/locomotive)
-[![Dependencies](https://david-dm.org/jaredhanson/locomotive.png)](https://david-dm.org/jaredhanson/locomotive)
+[![Build Status](https://travis-ci.org/drudge/locomotive.svg?branch=feature%2Fexpress4)](https://travis-ci.org/drudge/locomotive)
+[![Coverage](https://coveralls.io/repos/drudge/locomotive/badge.png)](https://coveralls.io/r/drudge/locomotive)
+[![Quality](https://codeclimate.com/github/drudge/locomotive.png)](https://codeclimate.com/github/drudge/locomotive)
+[![Dependencies](https://david-dm.org/drudge/locomotive.png)](https://david-dm.org/drudge/locomotive)
 [![Tips](http://img.shields.io/gittip/jaredhanson.png)](https://www.gittip.com/jaredhanson/)
 
 
