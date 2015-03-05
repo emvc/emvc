@@ -1394,7 +1394,8 @@ describe('Controller#respond', function() {
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
-        default: { format: 'yaml', engine: 'yamlb' }
+        'text/yaml': { format: 'yaml', engine: 'yamlb' },
+        default: { format: 'blargl', engine: 'blargl' }
       });
     };
 
@@ -1418,10 +1419,11 @@ describe('Controller#respond', function() {
 
     it('should negotiate content type', function() {
       expect(types).to.be.an('array');
-      expect(types).to.have.lengthOf(3);
+      expect(types).to.have.lengthOf(4);
       expect(types[0]).to.equal('application/json');
       expect(types[1]).to.equal('application/xml');
       expect(types[2]).to.equal('application/vnd.acme.foo');
+      expect(types[3]).to.equal('text/yaml');
     });
 
     it('should set content-type header', function() {
@@ -1433,7 +1435,7 @@ describe('Controller#respond', function() {
     });
 
     it('should render view without options', function() {
-      expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type_with_default.yaml.yamlb');
+      expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type_with_default.blargl.blargl');
       expect(res._options).to.be.an('object');
       expect(Object.keys(res._options)).to.have.length(0);
     });
@@ -2089,7 +2091,8 @@ describe('Controller#respond', function() {
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' },
-        default: { format: 'yaml', engine: 'yamlb' }
+        'yaml': { format: 'yaml', engine: 'yamlb' },
+        default: { format: 'blargl', engine: 'blargl' }
       });
     };
 
@@ -2113,10 +2116,11 @@ describe('Controller#respond', function() {
 
     it('should negotiate content type', function() {
       expect(types).to.be.an('array');
-      expect(types).to.have.lengthOf(3);
+      expect(types).to.have.lengthOf(4);
       expect(types[0]).to.equal('json');
       expect(types[1]).to.equal('xml');
       expect(types[2]).to.equal('foo');
+      expect(types[3]).to.equal('yaml');
     });
 
     it('should set content-type header', function() {
@@ -2128,7 +2132,7 @@ describe('Controller#respond', function() {
     });
 
     it('should render view without options', function() {
-      expect(res._view).to.equal('test/respond_using_options_keyed_by_extension_with_default.yaml.yamlb');
+      expect(res._view).to.equal('test/respond_using_options_keyed_by_extension_with_default.blargl.blargl');
       expect(res._options).to.be.an('object');
       expect(Object.keys(res._options)).to.have.length(0);
     });
