@@ -37,23 +37,23 @@
     "bootable": "^0.2.4",
     "bootable-environment": "^0.2.0",
     "co-prompt": "^1.0.0",
-    "commander": "^2.5.0",
-    "debug": "^2.1.0",
-    "express": "^4.10.4",
-    "mime-types": "^2.0.3",
-    "mkdirp": "^0.5.0",
+    "commander": "^2.9.0",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "mime-types": "^2.1.11",
+    "mkdirp": "^0.5.1",
     "parent-require": "^1.0.0",
-    "pkginfo": "^0.3.0",
+    "pkginfo": "^0.4.0",
     "scripts": "^0.1.0",
-    "syntax-error": "^1.1.2",
+    "syntax-error": "^1.1.6",
     "utils-flatten": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
+    "chai": "^3.5.0",
     "chai-connect-middleware": "^0.3.1",
     "chai-locomotive-helpers": "^0.1.0",
-    "mocha": "^2.0.1",
-    "promise": "^6.0.1"
+    "mocha": "^2.5.3",
+    "promise": "^7.1.1"
   },
   "engines": {
     "node": ">= 0.10.0"
