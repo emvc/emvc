@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Routing : Verbs </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="routing-verbs">Routing : Verbs</h3>
+<p>emvc&#39;s router supports verb routing in the form of <code>this.VERB()</code>, where
+<em>VERB</em> is one of the HTTP methods, such as <code>this.post()</code>.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.post(<span class="string">'bands'</span>, <span class="string">'bands#create'</span>);</code></pre>
+<p>Verb routing is syntactic sugar for match routes, meaning the above route is
+equivalent to:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'bands'</span>, <span class="string">'bands#create'</span>, { via: <span class="string">'post'</span> });</code></pre>
+<h4 id="middleware">Middleware</h4>
+<p>Middleware and route handling functions can also be passed as arguments to verb
+routes:</p>
+<pre><code><span class="transposed_variable">this.</span>get(<span class="string">'/user/:id'</span>, <span class="transposed_variable">user.</span><span class="built_in">load</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
+  <span class="transposed_variable">res.</span>json(<span class="transposed_variable">req.</span><span class="transposed_variable">locals.</span>user);
+});</code></pre>
+<p>When use in this form, emvc&#39;s router supports the <a href="http://expressjs.com/api.html#app.VERB">API</a>
+exposed by <a href="http://expressjs.com/">Express</a> for routing, making it easy to
+gradually refactor routes from Express to an MVC architecture when needed.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

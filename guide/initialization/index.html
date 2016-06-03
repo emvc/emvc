@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Application : Initialization </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="application-initialization">Application : Initialization</h3>
+<p>When a emvc application is started, it proceeds through a sequence of
+steps:</p>
+<ol>
+<li><p>Configure the Environment</p>
+<p>In this step, <code>config/environments/all.js</code> is executed followed by the
+configuration file for the current environment.  For instance, when running
+in development, <code>config/environments/development.js</code> is executed.</p>
+</li>
+<li><p>Invoke Initializers</p>
+<p>After the environment has been configured, initializers are invoked.
+Initializers are used to configure sub-systems and connect to databases,
+message queues, and other services utilized by the application.</p>
+</li>
+<li><p>Draw Routes</p>
+<p>The routes in <code>config/routes.js</code> are drawn.</p>
+</li>
+<li><p>Start HTTP Server</p>
+<p>Finally, the HTTP server is started and the application begins handling
+requests.</p>
+</li>
+</ol>
+<h4 id="environments">Environments</h4>
+<p>An environment configuration exports a single function which is invoked when the
+application is started:</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.set(<span class="string">'view engine'</span>, <span class="string">'ejs'</span>);
+
+  <span class="keyword">this</span>.use(poweredBy(<span class="string">'emvc'</span>));
+  <span class="keyword">this</span>.use(express.logger());
+  <span class="keyword">this</span>.use(express.static(__dirname + <span class="string">'/../../public'</span>));
+  <span class="keyword">this</span>.use(express.cookieParser());
+  <span class="keyword">this</span>.use(express.bodyParser());
+  <span class="keyword">this</span>.use(express.session({ secret: <span class="string">'keyboard cat'</span> }));
+  <span class="keyword">this</span>.use(passport.initialize());
+  <span class="keyword">this</span>.use(passport.session());
+  <span class="keyword">this</span>.use(<span class="keyword">this</span>.router);
+}</code></pre>
+<p>Within the function, the <code>this</code> context is set to the application, which
+conforms to the <a href="http://expressjs.com/api.html">Express API</a>.</p>
+<p>Environments are typically used to configure <a href="http://expressjs.com/api.html#app-settings">settings</a>
+and use <a href="http://www.senchalabs.org/connect/">middleware</a>.</p>
+<h4 id="initializers">Initializers</h4>
+<p>After the environment is configured, initializers are run.  Initializers are
+identical to environments, in that they export a single function.</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="comment">// initialize something...</span>
+}</code></pre>
+<p>Initializers can also be asynchronous, in which case they accept a single <code>done</code>
+argument that must be called once initialization is complete.</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">(done)</span> {</span>
+  <span class="comment">// async initialize something...</span>
+  setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    done(); <span class="comment">// or done(err) if an error occurred</span>
+  }, <span class="number">1000</span>);
+}</code></pre>
+<p>Within the function, the <code>this</code> context is set to the application, which
+conforms to the <a href="http://expressjs.com/api.html">Express API</a>.</p>
+<p>Initializers are typically used to connect to databases and configure
+sub-systems.  Each initializer executes sequentially, ensuring that the previous
+one completes before the next one is invoked.</p>
+<h5 id="initializing-mongoose-and-mongodb">Initializing Mongoose and MongoDB</h5>
+<p>The following initializer connects to <a href="http://www.mongodb.org/">MongoDB</a> using
+<a href="http://mongoosejs.com/">Mongoose</a> and defines models.</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">switch</span> (<span class="keyword">this</span>.env) {
+    <span class="keyword">case</span> <span class="string">'development'</span>:
+      mongoose.connect(<span class="string">'mongodb://mongodb.example.com/dev'</span>);
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">'production'</span>:
+      mongoose.connect(<span class="string">'mongodb://mongodb.example.com/prod'</span>);
+      <span class="keyword">break</span>;
+  }
+
+  mongoose.model(<span class="string">'User'</span>, schemas.UserSchema);
+  mongoose.model(<span class="string">'Post'</span>, schemas.PostSchema);
+}</code></pre>
+<h5 id="initializing-passport-for-authentication">Initializing Passport for Authentication</h5>
+<p>The following initializer configures <a href="http://passportjs.org/">Passport</a>
+strategies used for authentication.</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  passport.serializeUser(<span class="function"><span class="keyword">function</span><span class="params">(user, done)</span> {</span>
+    done(<span class="literal">null</span>, user.id);
+  });
+  passport.deserializeUser(<span class="function"><span class="keyword">function</span><span class="params">(id, done)</span> {</span>
+    User.findById(id, <span class="function"><span class="keyword">function</span> <span class="params">(err, user)</span> {</span>
+      done(err, user);
+    });
+  });
+
+  passport.use(<span class="keyword">new</span> LocalStrategy(
+    <span class="function"><span class="keyword">function</span><span class="params">(username, password, done)</span> {</span>
+      User.findOne({ username: username }, <span class="function"><span class="keyword">function</span><span class="params">(err, user)</span> {</span>
+        <span class="keyword">if</span> (err) { <span class="keyword">return</span> done(err); }
+        <span class="keyword">if</span> (!user) { <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>); }
+        <span class="keyword">if</span> (!user.validPassword(password)) { <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>); }
+        <span class="keyword">return</span> done(<span class="literal">null</span>, user);
+      });
+    }
+  ));
+}</code></pre>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

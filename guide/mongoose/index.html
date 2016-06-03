@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Datastores : Mongoose </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="datastores-mongoose">Datastores : Mongoose</h3>
+<p><a href="http://mongoosejs.com/">Mongoose</a> is popular object modeling layer for
+<a href="http://www.mongodb.org/">MongoDB</a>, an open source, document-oriented NoSQL
+database written in C++.</p>
+<h4 id="adapter">Adapter</h4>
+<p><a href="https://github.com/jaredhanson/locomotive-mongoose">locomotive-mongoose</a> is a datastore
+adapter that adds Mongoose model awareness to emvc.</p>
+<p>To use the Mongoose adapter, install it via <a href="https://npmjs.org/">npm</a> and save it in <code>package.json</code>:</p>
+<pre><code class="undefinedbash">npm install locomotive-mongoose --save</code></pre>
+<p>Register it in <code>config/environments/all.js</code>:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.datastore(require(<span class="string">'locomotive-mongoose'</span>));</code></pre>
+<h4 id="model-awareness">Model Awareness</h4>
+<p>Mongoose documents can then be passed directly to <code>urlFor()</code>:</p>
+<pre><code class="undefinedjavascript">Animal.findById(<span class="keyword">this</span>.param(<span class="string">'id'</span>), <span class="function"><span class="keyword">function</span><span class="params">(err, animal)</span> {</span>
+  <span class="keyword">if</span> (err) { <span class="keyword">return</span> next(err); }
+  self.url = self.urlFor(animal);
+  next();
+});</code></pre>
+<h4 id="initializer">Initializer</h4>
+<p>The following initializer, located at <code>config/initializers/nn_mongoose.js</code> will
+configure Mongoose and connect to MongoDB when starting a emvc application:</p>
+<pre><code class="undefinedjavascript">module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">switch</span> (<span class="keyword">this</span>.env) {
+    <span class="keyword">case</span> <span class="string">'development'</span>:
+      mongoose.connect(<span class="string">'mongodb://mongodb.example.com/dev'</span>);
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">'production'</span>:
+      mongoose.connect(<span class="string">'mongodb://mongodb.example.com/prod'</span>);
+      <span class="keyword">break</span>;
+  }
+
+  mongoose.model(<span class="string">'User'</span>, schemas.UserSchema);
+  mongoose.model(<span class="string">'Post'</span>, schemas.PostSchema);
+}</code></pre>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

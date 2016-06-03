@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Controllers </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="controllers">Controllers</h3>
+<p>Controllers are responsible for handling a request and producing a response.
+After routing has determined what controller to use, an <em>action</em> function will
+be invoked.  This action function does the work of loading data and rendering
+views.</p>
+<h4 id="defining-a-controller">Defining a Controller</h4>
+<p>In emvc, controllers are instances of <code>Controller</code>.  Defining a new
+controller is as simple as creating an instance and exporting it via the module.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">var</span> PhotosController = <span class="keyword">new</span> Controller();
+
+module.exports = PhotosController;</code></pre>
+<h4 id="actions">Actions</h4>
+<p>Functions attached to the controller are known as <em>action</em> functions.  When
+emvc receives a request, it will create a new instance of the controller
+and call the appropriate action function.</p>
+<p>For example, if a request is received for <code>/photos/123</code>, emvc will call
+the <code>show()</code> action of <code>PhotosController</code>.</p>
+<pre><code class="undefinedjavascript">PhotosController.show = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.render();
+}</code></pre>
+<p>Controllers are responsible for sending a response to the request.  This is
+typically accomplished by <code>render()</code>ing a view or issuing a <code>redirect()</code>.</p>
+<h4 id="parameters">Parameters</h4>
+<p>Requests often contain data that the controller needs to access when building a
+response.  The <code>param()</code> function is used to get data contained in the route,
+query, or body parameters.</p>
+<pre><code class="undefinedjavascript">SearchController.find = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.query = <span class="keyword">this</span>.param(<span class="string">'query'</span>);
+  <span class="comment">// execute search query...</span>
+  <span class="keyword">this</span>.render(<span class="string">'results'</span>);
+}</code></pre>
+<p>The value returned by <code>param()</code> will be found by checking parameters in the
+following order:</p>
+<ul>
+<li>Check route params (req.params), ex: /photos/:id</li>
+<li>Check query string params (req.query), ex: ?id=12</li>
+<li>Check urlencoded body params (req.body), ex: id=12</li>
+</ul>
+<h4 id="rendering-a-view">Rendering a View</h4>
+<p>Rendering a view is accomplished by calling <code>render()</code>.  Any instance variables
+attached to the controller will be made available to the view.  By convention,
+variables named with a leading underscore are considered private and will not be
+made available to the view.</p>
+<pre><code class="undefinedjavascript">PhotosController.show = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="comment">// this._photo is "private", and not available in the view</span>
+  <span class="keyword">this</span>.title = <span class="keyword">this</span>._photo.title;
+  <span class="keyword">this</span>.description = <span class="keyword">this</span>._photo.description;
+  <span class="keyword">this</span>.render();
+}</code></pre>
+<p>The view found in <code>views/photos/show.html.ejs</code> will be rendered.</p>
+<pre><code class="undefinedxml"><span class="tag">&lt;<span class="title">h2</span>&gt;</span><span class="vbscript">&lt;%= title %&gt;</span><span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
+<span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="vbscript">&lt;%= description %&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></code></pre>
+<h5 id="render-another-action-s-view">Render another Action&#39;s View</h5>
+<p>By default, the view corresponding to the current action will be rendered, in
+this case <code>show</code>.  A different action&#39;s view can be rendered by specifying
+it as an argument:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.render(<span class="string">'index'</span>);</code></pre>
+<h5 id="render-another-controller-s-action-s-view">Render another Controller&#39;s Action&#39;s View</h5>
+<p>If you want to render a view belonging to an action in an entirely separate
+controller, that can be accomplished as follows:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.render(<span class="string">'albums/show'</span>);</code></pre>
+<h5 id="rendering-options">Rendering Options</h5>
+<p>Options can be used to render a different format or use a different template
+engine.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.render({ format: <span class="string">'xml'</span> });
+<span class="comment">// =&gt; renders `action.xml.ejs`</span>
+
+<span class="keyword">this</span>.render({ format: <span class="string">'xml'</span>, engine: <span class="string">'xmlb'</span> });
+<span class="comment">// =&gt; renders `action.xml.xmlb`</span></code></pre>
+<p>Refer to <a href="/guide/formats/">formats</a> for settings used to associate a format with
+a template engines.</p>
+<h5 id="capturing-render-output">Capturing Render Output</h5>
+<p>By default, the output of rendering is automatically sent as a response to the
+request.  By passing a callback as the final argument to <code>render()</code>, the output
+can instead be captured.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.render(<span class="string">'email'</span>, { name: <span class="string">'Jack'</span> }, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
+  <span class="comment">// ...</span>
+})</code></pre>
+<p>This is useful in cases where you want to use a template to generate an email
+message, rather than a response.</p>
+<h4 id="redirecting-a-request">Redirecting a Request</h4>
+<p>Instead of rendering a view, a controller may want to redirect the request.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.redirect(<span class="string">'/login'</span>);</code></pre>
+<h4 id="request-and-response">Request and Response</h4>
+<p>If an application needs access to the raw request and response, each is
+available as an instance variable within the controller.</p>
+<pre><code class="undefinedjavascript">PhotosController.show = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> req = <span class="keyword">this</span>.req;  <span class="comment">// also aliased as this.request</span>
+  <span class="keyword">var</span> res = <span class="keyword">this</span>.res;  <span class="comment">// also aliased as this.response</span>
+  <span class="keyword">this</span>.render();
+}</code></pre>
+<p>In emvc, requests are dispatched through <a href="http://expressjs.com/">Express</a>
+and any middleware in use before arriving at the controller.  As such, the
+entirety of the <a href="http://expressjs.com/api.html">Express API</a> and the core Node.js
+<a href="http://nodejs.org/api/http.html">HTTP API</a> apply to these objects.</p>
+<p>In most cases, the controller provides functions to access commonly needed
+properties on the request and response, such as <code>param()</code>.  It&#39;s recommended to
+use these functions whenever possible.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

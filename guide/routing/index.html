@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Routing </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="routing">Routing</h3>
+<p>emvc&#39;s router is responsible for receiving requests to your application
+and dispatching them to a controller&#39;s action.  Dispatching is based on the
+request&#39;s URL and HTTP method.</p>
+<p>The router also dynamically generates routing helper functions that build paths
+and URLs.  These helpers are available in controllers and views, eliminating the
+need to hardcode strings.</p>
+<p>Routes are configured in <code>config/routes.js</code></p>
+<h4 id="match-routes">Match Routes</h4>
+<p>emvc can match arbitrary URL patterns to a controller&#39;s action.</p>
+<p>For example, declaring this match route:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'songs/:title'</span>, { controller: <span class="string">'songs'</span>, action: <span class="string">'show'</span> });</code></pre>
+<p>will cause <code>SongsController</code>&#39;s <code>show()</code> action to handle requests for URLs which
+match the pattern.</p>
+<pre>
+/songs/like-a-rolling-stone
+/songs/all-along-the-watchtower
+</pre>
+
+<p>Shorthand notation, in the form of <em>controller#action</em> is also available to
+target a controller&#39;s action.  For example, the following route is equivalent to
+the one declared above:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'songs/:title'</span>, <span class="string">'songs#show'</span>);</code></pre>
+<p>The values associated with named placeholders, in this case <code>:title</code>, will be
+available in the controller via the <code>param()</code> function.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.param(<span class="string">'title'</span>);  <span class="comment">// returns 'like-a-rolling-stone'</span></code></pre>
+<h5 id="via">Via</h5>
+<p>By default, match routes use <code>GET</code> as the HTTP method.  This can be changed by
+specifying the <code>via</code> option:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'photos/upload'</span>, <span class="string">'photos#upload'</span>, { via: <span class="string">'POST'</span> });</code></pre>
+<p>A route that responds to multiple methods can be specified as an array.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'photos/upload'</span>, <span class="string">'photos#upload'</span>, { via: [<span class="string">'POST'</span>, <span class="string">'PUT'</span>] });</code></pre>
+<h5 id="helper">Helper</h5>
+<p>A routing helper can be declared along with the route with the <code>as</code> option:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'bands/:id'</span>, <span class="string">'bands#show'</span>, { as: <span class="string">'bands'</span> });</code></pre>
+<p>in which case a path routing helper, and corresponding URL routing helper, will
+be available in controllers and views.</p>
+<div class="row">
+  <div class="span4">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>Returns</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>bandsPath(&#39;radiohead&#39;)</td>
+          <td>/bands/radiohead</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<h4 id="routing-to-middleware">Routing to Middleware</h4>
+<p>Instead of routing to a controller, you can route directly to any
+<a href="http://www.senchalabs.org/connect/">Connect</a>-compatible middleware.</p>
+<p>For example, the following will route login requests to <a href="http://passportjs.org/">Passport</a>
+for authentication.</p>
+<pre><code><span class="transposed_variable">this.</span>match(<span class="string">'login'</span>,
+    <span class="transposed_variable">passport.</span>authenticate(<span class="string">'local'</span>, <span class="cell">{ successRedirect: <span class="string">'/'</span>, failureRedirect: <span class="string">'/login'</span> }</span>),
+    <span class="cell">{ via: <span class="string">'post'</span> }</span>);</code></pre>
+<p>Routes can be sent to a middleware chain by specifying each middleware as an
+element within an array.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.match(<span class="string">'somewhere'</span>, [ middlewareOne(), middlewareTwo() ]);</code></pre>
+<h4 id="root-route">Root Route</h4>
+<p>The root route, <em>/</em>, can be declared with the <code>root()</code> function:</p>
+<pre><code><span class="keyword">this</span>.root(<span class="string">'pages#main'</span>);</code></pre>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

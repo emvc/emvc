@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Controllers : Filters </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="controllers-filters">Controllers : Filters</h3>
+<p>Filters are functions that run before or after the action function.  Each filter
+is executed sequentially, one after the other, after the previous filter calls
+<code>next</code>.</p>
+<p>Filters help to untangle nested blocks of async code, and are especially useful
+for loading records from a database or implementing authentication and access
+control.</p>
+<h4 id="before-filters">Before Filters</h4>
+<p>Before filters run before the action function.</p>
+<pre><code class="undefinedjavascript">PhotosController.before(<span class="string">'show'</span>, <span class="function"><span class="keyword">function</span><span class="params">(next)</span> {</span>
+  <span class="keyword">var</span> self = <span class="keyword">this</span>;
+  Photo.findOne(<span class="keyword">this</span>.param(<span class="string">'id'</span>), <span class="function"><span class="keyword">function</span><span class="params">(err, photo)</span> {</span>
+    <span class="keyword">if</span> (err) { <span class="keyword">return</span> next(err) }
+    self._photo = photo;
+    next();
+  });
+});
+
+PhotosController.show = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.title = <span class="keyword">this</span>._photo.title;
+  <span class="keyword">this</span>.description = <span class="keyword">this</span>._photo.description;
+  <span class="keyword">this</span>.render();
+}</code></pre>
+<h5 id="before-all">Before All</h5>
+<p>Specify <code>*</code> to run a filter before <em>all</em> actions in the controller.</p>
+<pre><code class="undefinedjavascript">PhotosController.before(<span class="string">'*'</span>, <span class="function"><span class="keyword">function</span><span class="params">(next)</span> {</span>
+  <span class="comment">// this executes before any action is invoked</span>
+});</code></pre>
+<h5 id="middleware-as-a-filter">Middleware as a Filter</h5>
+<p><a href="http://senchalabs.github.com/connect/">Connect</a>-style middleware can also be
+used as a filter.</p>
+<p>For example, to limit the size of an upload:</p>
+<pre><code class="undefinedjavascript">PhotosController.before(<span class="string">'upload'</span>, connect.limit(<span class="string">'10mb'</span>));</code></pre>
+<p>Or implementing authentication using <a href="http://passportjs.org/">Passport</a> and <a href="https://github.com/jaredhanson/connect-ensure-login">connect-ensure-login</a>:</p>
+<pre><code class="undefinedjavascript">LogInController.before(<span class="string">'login'</span>, login.ensureLoggedOut(<span class="string">'/'</span>));
+LogInController.before(<span class="string">'login'</span>, passport.authenticate(<span class="string">'local'</span>, { failureRedirect: <span class="string">'/login'</span>,
+                                                                 failureFlash: <span class="literal">true</span> }));
+LogInController.login = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.redirect(<span class="string">'/welcome'</span>);
+}</code></pre>
+<h4 id="after-filters">After Filters</h4>
+<p>After filters are identical to before filters, except that they run after the
+action, naturally.</p>
+<pre><code class="undefinedjavascript">PhotosController.after(<span class="string">'show'</span>, <span class="function"><span class="keyword">function</span><span class="params">(next)</span> {</span>
+  hitCounter++;
+  next();
+});</code></pre>
+<h4 id="after-error-filters">After Error Filters</h4>
+<p>After error filters can be used to handle errors that occur within a controller.</p>
+<pre><code class="undefinedjavascript">PhotosController.after(<span class="string">'*'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span> {</span>
+  <span class="keyword">this</span>.render(<span class="string">'error'</span>, { message: err.message });
+});</code></pre>
+<p>If no after error filters are defined, the error will be passed out where it can
+be handled by application-level <a href="http://expressjs.com/guide.html#error-handling">error handling</a>
+middleware.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

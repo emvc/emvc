@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Datastores </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="datastores">Datastores</h3>
+<p>emvc recognizes that the demands of modern web applications entail the
+use of a variety of datastores.  Choosing the correct database is an important
+decision, and emvc does not impose on that choice.  emvc is fully
+functional, independent of the choice of database or object mapping layer used
+by an application.</p>
+<h4 id="model-awareness">Model Awareness</h4>
+<p>emvc includes a <code>urlFor()</code> helper that can be used to build URLs to a
+controller&#39;s action.  For example:</p>
+<pre><code class="undefinedjavascript">urlFor({ controller: <span class="string">'animals'</span>, action: <span class="string">'show'</span>, id: <span class="string">'123'</span> });
+<span class="comment">// =&gt; http://www.example.com/animals/123</span></code></pre>
+<p>This helper is also model aware.  It can be passed a model object, which will be
+introspected in order to determine the type of record and build the
+corresponding URL.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">var</span> animal = <span class="keyword">new</span> Animal({ id: <span class="string">'123'</span> });
+urlFor(animal);
+<span class="comment">// =&gt; http://www.example.com/animals/123</span></code></pre>
+<p>Out of the box, model awareness works for any model that has a unique constructor.
+Datastores that don&#39;t satisfy this requirement can be made model aware through
+the use of adapters.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

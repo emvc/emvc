@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Views </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="views">Views</h3>
+<p>Views are used when rendering a response to a request.  Views are processed by
+template engines which compile the view and substitute variables to produce the
+final output.</p>
+<p>emvc delegates all rendering to <a href="http://expressjs.com/">Express</a>, ensuring
+seamless compatibility with <a href="https://github.com/visionmedia/ejs">EJS</a>,
+<a href="http://jade-lang.com/">Jade</a>, and the <a href="https://github.com/visionmedia/express/wiki">many</a>
+<a href="https://github.com/visionmedia/consolidate.js">other</a> compliant template engines.</p>
+<h4 id="settings">Settings</h4>
+<p>By default, emvc uses <a href="https://github.com/visionmedia/ejs">EJS</a> as its
+template engine.  That is easily changed by setting the <code>view engine</code> option in
+<code>config/initializers/02_views.js</code>:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.set(<span class="string">'view engine'</span>, <span class="string">'jade'</span>);</code></pre>
+<p>When rendering, emvc finds templates using a <code>name.format.engine</code>
+convention, resulting in file names such as <code>show.html.ejs</code>.</p>
+<p>Some template engines, such as Jade, internally locate layouts using just the
+engine as a extension (for example, <code>layout.jade</code>).  This results in a mixed
+set of conventions that can cause confusion.</p>
+<p>To avoid this, a format can be mapped to an explicit convention:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.format(<span class="string">'html'</span>, { extension: <span class="string">'.jade'</span> })</code></pre>
+<p>With that setting in place, a call to <code>render(&#39;home&#39;)</code> would render the template
+named <code>show.jade</code>.</p>
+<h4 id="selecting-an-engine-at-render-time">Selecting an Engine at Render Time</h4>
+<p>Controllers can selectively override the application&#39;s default template engine
+in the call to render:</p>
+<pre><code class="undefinedjavascript">PhotosController.show = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.render({ engine: <span class="string">'ejs'</span> });
+}</code></pre>
+<p>This feature is not widely used, but can come in handy when one or two pages
+in your site follow a different layout or are self-contained in an EJS template.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

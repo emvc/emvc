@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Overview </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="overview">Overview</h3>
+<p>emvc is a web framework for <a href="http://nodejs.org/">Node</a> that makes building
+web applications easier.  emvc provides strong support for <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>
+patterns and <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>
+principles, leading to well-architected applications.  emvc favors
+convention over configuration, making developers more efficient.  It does all
+this without sacrificing any of the power you&#39;ve come to expect from Node.</p>
+<p>When choosing a technology stack, developers are drawn to Node for its
+event-driven, non-blocking I/O model, which makes it higly effective for
+building <em>network</em> applications in general.  While this is a powerful foundation
+to build on, it does not address the needs of <em>web</em> applications in particular.</p>
+<p><a href="http://expressjs.com/">Express</a> and <a href="http://www.senchalabs.org/connect/">Connect</a>
+have set the de-facto standard for web applications in Node, centered around the
+effective use of HTTP middleware.  Express is an incredible framework, but its
+minimal nature leaves some questions unanswered:  How should an application&#39;s
+code be structured?  Where should an application&#39;s files be located?</p>
+<p>emvc answers these questions.  Best of all, it builds entirely on top of
+Express - every emvc application is also an Express application.  If
+you&#39;re already familiar with Express, all your knowledge applies equally well to
+emvc.  If you&#39;re new to Node web development, emvc provides the
+structure you need, without sacrificing the flexibility of a more minimal
+framework when its appropriate.</p>
+<p>Developers coming to Node from other frameworks such as <a href="http://rubyonrails.org/">Ruby on Rails</a>
+will feel immediately comfortable.  Rails revolutionized web development,
+setting the bar by which other frameworks are measured.  emvc embraces the
+concepts introduced by Rails, while tailoring them to the idioms of Node.</p>
+<p>The end result is a framework that is both familiar, yet able to meet the
+demands of the modern web.  Let&#39;s <a href="/guide/get-started">get started</a>!</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Routing : Resources </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="routing-resources">Routing : Resources</h3>
+<p>Resource routing declares routes to a resourceful controller.  These routes map
+HTTP methods to a controller&#39;s actions, according to REST conventions.  Resource
+routing is the preferred routing mechanism in a Locomotive application.</p>
+<h4 id="collection-resources">Collection Resources</h4>
+<p>Declaring this route:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.resources(<span class="string">'photos'</span>);</code></pre>
+<p>will result in the following routes being mapped to <code>PhotosController</code>:</p>
+<div class="row">
+  <div class="span4">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Path</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>GET</td>
+          <td>/photos</td>
+          <td>index</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/photos/new</td>
+          <td>new</td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/photos</td>
+          <td>create</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/photos/:id</td>
+          <td>show</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/photos/:id/edit</td>
+          <td>edit</td>
+        </tr>
+        <tr>
+          <td>PUT</td>
+          <td>/photos/:id</td>
+          <td>update</td>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/photos/:id</td>
+          <td>destroy</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Additionally, the following routing helpers will be declared and available in
+controllers and views:</p>
+<div class="row">
+  <div class="span4">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>Returns</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>photosPath()</td>
+          <td>/photos</td>
+        </tr>
+        <tr>
+          <td>photoPath(id)</td>
+          <td>/photos/123</td>
+        </tr>
+        <tr>
+          <td>newPhotoPath()</td>
+          <td>/photos/new</td>
+        </tr>
+        <tr>
+          <td>editPhotoPath(id)</td>
+          <td>/photos/123/edit</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Each of these path routing helpers has a corresponding URL routing helper (such
+as <code>photosURL()</code>), that returns an absolute URL, including scheme and host.
+Using these helpers, as opposed to hardcoding paths, makes an application easier
+to maintain as routes change.</p>
+<h5 id="only-and-except">Only and Except</h5>
+<p>If you have resources that only implement a subset of the <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+operations, you can limit the routes to just the actions that are supported:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.resources(<span class="string">'bands'</span>, { only: [ <span class="string">'index'</span>, <span class="string">'show'</span>, <span class="string">'edit'</span>, <span class="string">'update'</span> ] });</code></pre>
+<p>which is equivalent to:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.resources(<span class="string">'bands'</span>, { except: [ <span class="string">'new'</span>, <span class="string">'create'</span>, <span class="string">'destroy'</span> ] });</code></pre>
+<h4 id="singleton-resources">Singleton Resources</h4>
+<p>An application may contain singleton resources that are not referenced using an
+ID.  For example, <code>/account</code> is often used to show account details for the
+logged in user (rather than <code>/account/:id</code>).</p>
+<p>In this case, a singleton resource route can be declared:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.resource(<span class="string">'account'</span>);</code></pre>
+<p>resulting in the following routes being mapped to <code>AccountController</code>:</p>
+<div class="row">
+  <div class="span4">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Path</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>GET</td>
+          <td>/account/new</td>
+          <td>new</td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/account</td>
+          <td>create</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/account</td>
+          <td>show</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/account/edit</td>
+          <td>edit</td>
+        </tr>
+        <tr>
+          <td>PUT</td>
+          <td>/account</td>
+          <td>update</td>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/account</td>
+          <td>destroy</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Additionally, the following routing helpers will be declared and available in
+controllers and views:</p>
+<div class="row">
+  <div class="span4">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>Returns</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>accountPath()</td>
+          <td>/account</td>
+        </tr>
+        <tr>
+          <td>newAccountPath()</td>
+          <td>/account/new</td>
+        </tr>
+        <tr>
+          <td>editAccountPath()</td>
+          <td>/account/edit</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Each of these path routing helpers has a corresponding URL routing helper.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

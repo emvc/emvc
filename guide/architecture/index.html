@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Architecture </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="architecture">Architecture</h3>
+<p>Locomotive is architected to make it easy to develop web applications while
+encouraging the use of best practices.  Locomotive is powered by high caliber
+<a href="http://nodejs.org/">Node.js</a> modules and promotes time-tested design patterns,
+yielding applications that have high performance and horizontal scalability.</p>
+<h4 id="mvc-model-view-controller">MVC: Model View Controller</h4>
+<p>At the core of Locomotive is the <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model View Controller</a>
+design pattern, often referred to simply by its abbreviation MVC.  MVC improves
+the architecture of an application by separating the user interface (the <em>View</em>)
+from the underlying data (the <em>Model</em>).  Logic in the controller is used to bind
+the model and the view.</p>
+<p>This separation of concerns helps to organize code, making it quicker to develop,
+cheaper to maintain, and easier to test.</p>
+<p>(Aside: Design pattern enthusiasts will note that MVC, as implemented by
+Locomotive, is more accurately termed <a href="http://en.wikipedia.org/wiki/Model_2">Model 2</a>.
+Because the distinction is not widely known, this guide will continue to use
+MVC to refer to the pattern.)</p>
+<h5 id="model">Model</h5>
+<p>The model represents the data used by an application, and the rules to
+manipulate that data.  This includes loading data from a database, and
+validating data before storing it.</p>
+<h5 id="view">View</h5>
+<p>The view represents the user interface of an application.  In Locomotive, views
+are often HTML files with embedded JavaScript.  A view is rendered by the
+application in response to a request, at which point it is displayed to the user
+in a web browser.</p>
+<h5 id="controller">Controller</h5>
+<p>The controller provides the glue between the model and the view.  In Locomotive,
+controllers process incoming requests from the web browser, loading data from
+models and passing that data on to a view for presentation.</p>
+<h4 id="rest-representational-state-transfer">REST: Representational State Transfer</h4>
+<p><a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> is a set of
+architectural principles for building distributed systems, and has emerged as the
+predominant model for designing web services.</p>
+<p>The concepts were introduced by <a href="http://www.ics.uci.edu/~fielding/">Roy T. Fielding</a>
+in his doctoral thesis: <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">Architectural Styles and the Design of Network-based Software Architectures</a>.
+While there are many details that can be analyzed in depth, in terms of Locomotive
+the following key points apply:</p>
+<ul>
+<li>Use URLs to identify resources</li>
+<li>Use standard HTTP methods to interact with resources</li>
+<li>When needed, represent a resource with multiple data formats</li>
+</ul>
+<p>Locomotive provides resource routing that makes it easy to follow REST
+guidelines.</p>
+<p>For a more detailed introduction to REST, the following articles are recommended
+reading:</p>
+<ul>
+<li><a href="http://www.infoq.com/articles/rest-introduction">A Brief Introduction to REST</a> by <a href="http://www.innoq.com/blog/st/">Stefan Tilkov</a></li>
+</ul>
+<h4 id="components-of-locomotive">Components of Locomotive</h4>
+<p>The Node.js community has embraced an <a href="http://substack.net/node_aesthetic">aesthetic</a>
+characterized by minimalistic modules and radical reusability.  Locomotive
+follows suit, reusing existing modules while layering on only the necessary
+amount higher-level structure.  It does this while preserving flexibility,
+allowing developers the freedom to chose exactly which database and template
+engine best suits the requirements of their application.</p>
+<h5 id="http-middleware">HTTP Middleware</h5>
+<p>The <a href="http://expressjs.com/">Express</a> and <a href="http://www.senchalabs.org/connect/">Connect</a>
+combination has set the de facto standard for HTTP middleware in Node.js.</p>
+<p>Locomotive builds entirely on top of Express - every Locomotive application is
+also an Express application.  This ensures seamless compatibility with the wide
+variety of Connect-compatible <a href="https://github.com/senchalabs/connect/wiki">middleware</a>
+that has been developed.</p>
+<h5 id="template-engines">Template Engines</h5>
+<p>Express has also set the de facto standard for pluggable template engines in
+Node.js.</p>
+<p>Locomotive inherits the view layer provided by Express, again ensuring seamless
+compatibility with <a href="https://github.com/visionmedia/ejs">EJS</a>, <a href="http://jade-lang.com/">Jade</a>,
+and other <a href="https://github.com/visionmedia/express/wiki">compliant</a> template
+engines.</p>
+<h5 id="databases-orm">Databases &amp; ORM</h5>
+<p>Locomotive does not provide a model layer of its own, recognizing that in the era
+of big data and real-time events, the challenges faced by modern web applications
+demand <a href="http://martinfowler.com/bliki/PolyglotPersistence.html">polyglot persistence</a>.</p>
+<p>Rather than being trapped behind a restrictive and limiting abstraction,
+developers are free to choose the database (or databases) and object mapping
+layer that best fits their needs.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

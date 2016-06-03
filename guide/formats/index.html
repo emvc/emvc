@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Controllers : Formats </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="controllers-formats">Controllers : Formats</h3>
+<p>Part of emvc&#39;s support for REST principles is the ability to represent a
+single resource with multiple data formats.  In technical terms this is known
+as content negotiation, as it gives a client the ability to specify what
+format it prefers to receive in response to a request.</p>
+<h4 id="settings">Settings</h4>
+<p>When rendering multiple data formats, it is advisable to use a template engine
+suited to the format.  For example, <a href="http://jade-lang.com/">Jade</a> is an excellent
+choice for rendering HTML, but is not well-suited for rendering XML or JSON.</p>
+<p>Template engines for formats are typically configured in <code>config/initializers/02_views.js</code>.
+For example, the following declares that <a href="https://github.com/jaredhanson/xmlb">xmlb</a>
+be used when rendering responses in XML format.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.format(<span class="string">'xml'</span>, { engine: <span class="string">'xmlb'</span> });</code></pre>
+<h4 id="respond">Respond</h4>
+<p>Responding with the requested format is done by calling <code>respond()</code>, which
+takes an object containing format keys as an argument:</p>
+<pre><code class="undefinedjavascript">PostsController.index = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.respond({
+    <span class="string">'xml'</span>: { template: <span class="string">'feed'</span> },
+    <span class="string">'html'</span>: { template: <span class="string">'index'</span> }
+  });
+}</code></pre>
+<p>The above code will render <code>views/posts/feed.xml.xmlb</code> for any client that
+requests content in XML format, while rendering <code>views/posts/index.html.ejs</code> for
+clients wanting HTML.</p>
+<p><code>respond()</code> works by automatically calling <code>render()</code>, passing along any options
+associated with the format key.  If default options are sufficient, the format
+key can simply be set to <code>true</code>.  For example, because the template is
+automatically derived from the action, the above could be reduced to:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.respond({
+  <span class="string">'xml'</span>: { template: <span class="string">'feed'</span> },
+  <span class="string">'html'</span>: <span class="literal">true</span>
+});</code></pre>
+<h5 id="default-format">Default Format</h5>
+<p>By default, if a client requests a format that is not supported, emvc will
+respond with a <code>406 Not Acceptable</code> error.  If instead it is desired to respond
+using a default format, set a <code>default</code> format key.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.respond({
+  <span class="string">'xml'</span>: { template: <span class="string">'feed'</span> },
+  <span class="keyword">default</span>: { format: <span class="string">'html'</span> }
+});</code></pre>
+<p>The above will continue to respond with XML to clients that request it, while
+rendering HTML for all other requests (for HTML or otherwise).</p>
+<h5 id="fine-grained-handling">Fine-Grained Handling</h5>
+<p>If an application needs to perform specific handling when responding with a
+format, the format key can be set to a function.  Instead of automatically
+calling <code>render()</code>, the function will be invoked allowing the application to
+handle the request as needed.</p>
+<pre><code class="undefinedjavascript"><span class="keyword">var</span> self = <span class="keyword">this</span>;
+<span class="keyword">this</span>.respond({
+  <span class="string">'json'</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span> self.res.json({ hello: <span class="string">'world'</span> }); },
+  <span class="keyword">default</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span> self.render(); }
+})</code></pre>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>

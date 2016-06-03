@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Locomotive  | Routing : Namespaces </title>    <link rel="stylesheet" href="/vendor/bootstrap/2.2.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/vendor/highlight/gc5f3dbd/styles/github.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>    <li class="active"><a href="/guide/">Guide</a></li>  </ul>
+  <h3><a href="/">emvc</a></h3>
+</div>
+
+      
+<div class="row guide">
+  <div class="span3 toc">
+    <ul class="unstyled">
+  <li><a href="/guide/">Overview</a></li>
+  <li><a href="/guide/get-started/">Get Started</a></li>
+  <li><a href="/guide/architecture/">Architecture</a></li>
+  <li><a href="/guide/application/">Application</a></li>
+  <ul>
+    <li><a href="/guide/directory-structure/">Directory Structure</a></li>
+    <li><a href="/guide/initialization/">Initialization</a></li>
+  </ul>
+  <li><a href="/guide/routing/">Routing</a></li>
+  <ul>
+    <li><a href="/guide/resources/">Resources</a></li>
+    <li><a href="/guide/namespaces/">Namespaces</a></li>
+    <li><a href="/guide/verbs/">Verbs</a></li>
+  </ul>
+  <li><a href="/guide/controllers/">Controllers</a></li>
+  <ul>
+    <li><a href="/guide/filters/">Filters</a></li>
+    <li><a href="/guide/formats/">Formats</a></li>
+  </ul>
+  <li><a href="/guide/views/">Views</a></li>
+  <li><a href="/guide/datastores/">Datastores</a></li>
+  <ul>
+    <li><a href="/guide/mongoose/">Mongoose</a></li>
+  </ul>
+</ul>
+
+  </div>
+  <div class="span9 content">
+    <h3 id="routing-namespaces">Routing : Namespaces</h3>
+<p>emvc&#39;s router supports namespaces and nesting, which are used to structure
+routes according to a hierarchy.</p>
+<h4 id="namespaces">Namespaces</h4>
+<p>You may want to organize an application by grouping controllers under a
+namespace.  Most commonly, administrative functionality is grouped under an
+<code>Admin::</code> namespace by placing controllers in the <code>app/controllers/admin</code>
+directory and declaring routes within a namespace:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.namespace(<span class="string">'admin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.resources(<span class="string">'posts'</span>);
+});</code></pre>
+<p>The above results in the following URLs and routing helpers being mapped to
+<code>Admin::PostsController</code>:</p>
+<div class="row">
+  <div class="span6">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Path</th>
+          <th>Action</th>
+          <th>Helper</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>GET</td>
+          <td>/admin/posts</td>
+          <td>index</td>
+          <td>adminPostsPath()</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/admin/posts/new</td>
+          <td>new</td>
+          <td>newAdminPostPath()</td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/admin/posts</td>
+          <td>create</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/admin/posts/:id</td>
+          <td>show</td>
+          <td>adminPostPath(id)</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/admin/posts/:id/edit</td>
+          <td>edit</td>
+          <td>editAdminPostPath(id)</td>
+        </tr>
+        <tr>
+          <td>PUT</td>
+          <td>/admin/posts/:id</td>
+          <td>update</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/admin/posts/:id</td>
+          <td>destroy</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Each of the above path routing helpers has a corresponding URL routing helper.</p>
+<h4 id="nested-resources">Nested Resources</h4>
+<p>It is common to have resources that are logically children of other resources.
+These relationships can be captured in routes by nesting resources:</p>
+<pre><code class="undefinedjavascript"><span class="keyword">this</span>.resources(<span class="string">'bands'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">this</span>.resources(<span class="string">'albums'</span>);
+});</code></pre>
+<p>In addition to the routes for bands, the following URLs and routing helpers are
+mapped to <code>AlbumsController</code>:</p>
+<div class="row">
+  <div class="span8">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Path</th>
+          <th>Action</th>
+          <th>Helper</th>
+        </tr>
+      </thead>
+      <tbody class="monospace">
+        <tr>
+          <td>GET</td>
+          <td>/bands/:band_id/albums</td>
+          <td>index</td>
+          <td>bandAlbumsPath(bandId)</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/bands/:band_id/albums/new</td>
+          <td>new</td>
+          <td>newBandAlbumPath(bandId)</td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/bands/:band_id/albums</td>
+          <td>create</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/bands/:band_id/albums/:id</td>
+          <td>show</td>
+          <td>bandAlbumPath(bandId, id)</td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>/bands/:band_id/albums/:id/edit</td>
+          <td>edit</td>
+          <td>editBandAlbumPath(bandId, id)</td>
+        </tr>
+        <tr>
+          <td>PUT</td>
+          <td>/bands/:band_id/albums/:id</td>
+          <td>update</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/bands/:band_id/albums/:id</td>
+          <td>destroy</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p>Each of the above path routing helpers has a corresponding URL routing helper.</p>
+<p>While no limit is placed on the number of levels to which resources can be
+nested, applications are encouraged not to nest more than one level deep, as
+doing otherwise quickly becomes cumbersome.</p>
+  </div>
+</div>
+      <div class="footer">
+  <p>&copy; 2011-2014 Jared Hanson</p>
+</div>
+      
+
+    </div>
+  </body>
+</html>
