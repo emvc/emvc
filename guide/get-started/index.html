@@ -48,21 +48,23 @@
   <div class="span9 content">
     <h3 id="get-started">Get Started</h3>
 <p>The quickest way to get started with emvc is to create an application
-skeleton using <code>lcm</code>, the CLI included with emvc.  Install emvc
+skeleton using <code>emvc</code>, the CLI included with emvc.  Install emvc
 globally from <a href="http://npmjs.org/">npm</a> to make the command available on your
 system.</p>
 <h4 id="install-emvc">Install emvc</h4>
 <pre><code class="undefinedbash">$ npm install emvc -g</code></pre>
 <h4 id="create-an-application">Create an Application</h4>
-<p>Now we can create an application, using <code>lcm create &lt;name&gt;</code>.  In this quick
+<p>Now we can create an application, using <code>emvc create &lt;name&gt;</code>.  In this quick
 tutorial, we&#39;ll create an app named <em>hello</em>.</p>
-<pre><code class="undefinedbash">$ lcm create hello</code></pre>
+<pre><code class="undefinedbash">$ emvc create hello</code></pre>
 <p>Now we&#39;ll switch into the newly created directory containing our app and
 install dependencies.</p>
 <pre><code class="undefinedbash">$ <span class="built_in">cd</span> hello
 $ npm install</code></pre>
 <h4 id="start-the-server">Start the Server</h4>
 <pre><code class="undefinedbash">$ node server</code></pre>
+<p>or you can start it using the <code>emvc</code> CLI:</p>
+<pre><code class="undefinedbash">$ emvc server</code></pre>
 <p>Our new app is now up and running at <a href="http://localhost:3000">localhost:3000</a>!</p>
 <h4 id="explore-the-code">Explore the Code</h4>
 <p>The application skeleton is simplistic, but the code it contains has helpful
