@@ -1,7 +1,7 @@
 {
-  "name": "locomotive",
-  "version": "0.6.0-alpha",
-  "description": "Powerful MVC web framework for Node.js.",
+  "name": "emvc",
+  "version": "0.6.4-alpha",
+  "description": "Powerful MVC web framework for Node.js using Express",
   "keywords": [
     "express",
     "connect",
@@ -10,17 +10,16 @@
     "rails"
   ],
   "author": {
-    "name": "Jared Hanson",
-    "email": "jaredhanson@gmail.com",
-    "url": "http://www.jaredhanson.net/"
+    "name": "Nicholas Penree",
+    "email": "nick@penree.com",
+    "url": "http://penree.com/"
   },
-  "homepage": "http://locomotivejs.org/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/locomotive.git"
+    "url": "git://github.com/emvc/emvc.git"
   },
   "bugs": {
-    "url": "http://github.com/jaredhanson/locomotive/issues"
+    "url": "http://github.com/emvc/emvc/issues"
   },
   "licenses": [
     {
@@ -29,11 +28,11 @@
     }
   ],
   "bin": {
-    "lcm": "./bin/lcm.js"
+    "emvc": "./bin/emvc.js"
   },
   "main": "./lib",
   "dependencies": {
-    "actionrouter": "^0.1.0",
+    "emvc-router": "^0.2.0",
     "bootable": "^0.2.4",
     "bootable-environment": "^0.2.0",
     "co-prompt": "^1.0.0",
@@ -51,7 +50,10 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-connect-middleware": "^0.3.1",
-    "chai-locomotive-helpers": "^0.1.0",
+    "chai-emvc-helpers": "^0.1.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "jshint": "^2.9.2",
     "mocha": "^2.5.3",
     "promise": "^7.1.1"
   },
@@ -59,6 +61,12 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha -b --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
+    "test": "./node_modules/.bin/mocha -b --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
+    "lint": "./node_modules/.bin/jshint lib/*.js lib/**/*.js lib/cli/**/*.js lib/helpers/**/*.js lib/resolvers/**/*.js",
+    "lint-tests": "./node_modules/.bin/jshint test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
+    "coverage": "DEBUG= ./node_modules/.bin/istanbul cover --dir ./reports/coverage _mocha -- --require ./test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
+    "view-coverage": "open ./reports/coverage/lcov-report/index.html",
+    "send-coverage": "cat ./reports/coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "clean": "rm -rf build; rm -rf reports"
   }
 }

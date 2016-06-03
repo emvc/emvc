@@ -1,51 +1,49 @@
-# Locomotive
+# emvc
 
-[![Build Status](https://travis-ci.org/drudge/locomotive.svg?branch=feature%2Fexpress4)](https://travis-ci.org/drudge/locomotive)
-[![Coverage Status](https://coveralls.io/repos/drudge/locomotive/badge.svg?branch=feature%2Fexpress4)](https://coveralls.io/r/drudge/locomotive?branch=feature%2Fexpress4)
-[![Quality](https://codeclimate.com/github/drudge/locomotive.png)](https://codeclimate.com/github/drudge/locomotive)
-[![Dependencies](https://david-dm.org/drudge/locomotive.png)](https://david-dm.org/drudge/locomotive)
+[![Build Status](https://travis-ci.org/emvc/emvc.svg?branch=master)](https://travis-ci.org/emvc/emvc)
+[![Coverage Status](https://coveralls.io/repos/github/emvc/emvc/badge.svg?branch=master)](https://coveralls.io/github/emvc/emvc?branch=master)
+[![Quality](https://codeclimate.com/github/emvc/emvc/badges/gpa.svg)](https://codeclimate.com/github/emvc/emvc)
+[![Dependencies](https://david-dm.org/emvc/emvc.png)](https://david-dm.org/emvc/emvc)
 
 
-[http://locomotivejs.org](http://locomotivejs.org/)
-
-Locomotive is a framework that brings structure and MVC patterns to web
+emvc is a framework that brings structure and MVC patterns to web
 applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
 
 ## Installation
 
-    $ npm install locomotive
+    $ npm install emvc
 
 ## Quick Start
 
-`lcm`, the command line interface to Locomotive, can be used to generate a
-starter application.  To use it, install Locomotive globally.
+`emvc`, the command line interface to emvc, can be used to generate a
+starter application.  To use it, install emvc globally.
 
-    $ npm install locomotive -g
-    
+    $ npm install emvc -g
+
 Next, create an application and install dependencies.
 
-    $ lcm create hello
+    $ emvc create hello
     $ cd hello
     $ npm install
-    
+
 Start the server.
 
-    $ lcm server
+    $ emvc server
 
 The application is available at [localhost:3000](http://localhost:3000).
 
 Start the server with node debug mode
 
-	$ lcm server --debug (node --debug mode)
-	$ lcm server --debug-brk (node --debug-brk mode)
+	$ emvc server --debug (node --debug mode)
+	$ emvc server --debug-brk (node --debug-brk mode)
 
 Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application as usual.
 
 ## Guide
 
-The [Locomotive Guide](http://locomotivejs.org/guide/) is the official source
+The [emvc Guide](http://emvcjs.org/guide/) is the official source
 for documentation, and is a handy reference to have available when developing
-web applications powered by Locomotive.
+web applications powered by emvc.
 
 ## Datastore Adapters
 
@@ -65,13 +63,17 @@ web applications powered by Locomotive.
 
 ## Credits
 
+  - [Nicholas Penree](http://github.com/drudge)
+  - [Sérgio Ramos](http://github.com/ramitos)
   - [Jared Hanson](http://github.com/jaredhanson)
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2011 Jared Hanson
+Copyright (c) 2016 Nicholas Penree
+
+Based on work Copyright (c) 2011 Jared Hanson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

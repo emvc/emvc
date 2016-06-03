@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 
 var program = require('commander')
-  , locomotive = require('../');
+  , emvc = require('../');
 
-program.version(locomotive.version);
+program.version(emvc.version);
 
 program.command('create <dir>')
-  .description('-> create Locomotive application')
+  .description('-> create emvc application')
   .action(function(path) {
-    locomotive.cli.create(path);
+    emvc.cli.create(path);
   });
 
 program.command('server')
-  .description('-> start Locomotive server')
+  .description('-> start emvc server')
   .option('-a, --address [address]', 'listen on specified address (default: 0.0.0.0)')
   .option('-p, --port [port]', 'listen on specified port (default: 3000)', parseInt)
   .option('-e, --env [environment]', 'run in specified environment (default: development)')
@@ -30,18 +30,18 @@ program.command('server')
 
     // TODO: Implement daemon and cluster mode
 
-    locomotive.cli.server(options.app || process.cwd(), options.address, options.port, options.env, options);
+    emvc.cli.server(options.app || process.cwd(), options.address, options.port, options.env, options);
   }).on('--help', function(options) {
     if (program.rawArgs && program.rawArgs.indexOf('--more') != -1) {
       console.log("  Debugging:");
       console.log();
-      console.log("    Locomotive applications can be debugged by enabling debug mode.");
+      console.log("    emvc applications can be debugged by enabling debug mode.");
       console.log();
       console.log("        $ lcm server --debug");
       console.log("        $ lcm server --debug-brk");
       console.log();
       console.log("    Debug mode activates V8's debugger protocol, so standard Node tools can be");
-      console.log("    used.  For example, with Locomotive running with debug mode enabled, launch");
+      console.log("    used.  For example, with emvc running with debug mode enabled, launch");
       console.log("    node-inspector:");
       console.log();
       console.log("        $ node-inspector");
@@ -50,10 +50,10 @@ program.command('server')
       console.log("    http://0.0.0.0:8080/debug?port=5858.  The conventional Web Inspector can be");
       console.log("    used to debug server-side applications.");
       console.log();
-      console.log("    Verbose log messages will be written to the console when `locomotive` is set");
+      console.log("    Verbose log messages will be written to the console when `emvc` is set");
       console.log("    in the DEBUG environment variable.");
       console.log();
-      console.log("        $ DEBUG=locomotive lcm server");
+      console.log("        $ DEBUG=emvc lcm server");
       console.log();
     }
   });

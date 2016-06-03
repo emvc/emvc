@@ -1,34 +1,34 @@
 /* global describe, it, expect */
 
-var locomotive = require('..')
+var emvc = require('..')
   , Application = require('../lib/application');
 
-describe('locomotive', function() {
+describe('emvc', function() {
 
   it('should expose singleton application', function() {
-    expect(locomotive).to.be.an('object');
-    expect(locomotive).to.be.an.instanceOf(Application);
+    expect(emvc).to.be.an('object');
+    expect(emvc).to.be.an.instanceOf(Application);
   });
 
   it('should export version', function() {
-    expect(locomotive.version).to.be.a('string');
+    expect(emvc.version).to.be.a('string');
   });
 
   it('should export constructors', function() {
-    expect(locomotive.Application).to.equal(locomotive.Locomotive);
-    expect(locomotive.Application).to.be.a('function');
-    expect(locomotive.Controller).to.be.a('function');
+    expect(emvc.Application).to.equal(emvc.emvc);
+    expect(emvc.Application).to.be.a('function');
+    expect(emvc.Controller).to.be.a('function');
   });
 
   it('should export boot phases', function() {
-    expect(locomotive.boot.controllers).to.be.a('function');
-    expect(locomotive.boot.views).to.be.a('function');
-    expect(locomotive.boot.routes).to.be.a('function');
-    expect(locomotive.boot.httpServer).to.be.a('function');
-    expect(locomotive.boot.httpServerCluster).to.be.a('function');
+    expect(emvc.boot.controllers).to.be.a('function');
+    expect(emvc.boot.views).to.be.a('function');
+    expect(emvc.boot.routes).to.be.a('function');
+    expect(emvc.boot.httpServer).to.be.a('function');
+    expect(emvc.boot.httpServerCluster).to.be.a('function');
 
-    expect(locomotive.boot.di).to.be.an('object');
-    expect(locomotive.boot.di.routes).to.be.a('function');
+    expect(emvc.boot.di).to.be.an('object');
+    expect(emvc.boot.di.routes).to.be.a('function');
   });
 
 });

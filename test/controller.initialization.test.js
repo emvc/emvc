@@ -72,11 +72,11 @@ describe('Controller', function() {
         controller._invoke('show');
       });
 
-      it('should assign _locomotive properties to req', function() {
-        expect(req._locomotive).to.be.an('object');
-        expect(req._locomotive.app).to.equal(app);
-        expect(req._locomotive.controller).to.equal('test');
-        expect(req._locomotive.action).to.equal('show');
+      it('should assign _emvc properties to req', function() {
+        expect(req._emvc).to.be.an('object');
+        expect(req._emvc.app).to.equal(app);
+        expect(req._emvc.controller).to.equal('test');
+        expect(req._emvc.action).to.equal('show');
       });
     });
 
