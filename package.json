@@ -27,9 +27,6 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "bin": {
-    "emvc": "./bin/emvc.js"
-  },
   "main": "./lib",
   "dependencies": {
     "emvc-router": "^0.2.0",
@@ -62,7 +59,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha -b --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
-    "lint": "./node_modules/.bin/jshint lib/*.js lib/**/*.js lib/cli/**/*.js lib/helpers/**/*.js lib/resolvers/**/*.js",
+    "lint": "./node_modules/.bin/jshint lib/*.js lib/**/*.js lib/helpers/**/*.js lib/resolvers/**/*.js",
     "lint-tests": "./node_modules/.bin/jshint test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
     "coverage": "DEBUG= ./node_modules/.bin/istanbul cover --dir ./reports/coverage _mocha -- --require ./test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
     "view-coverage": "open ./reports/coverage/lcov-report/index.html",

@@ -16,32 +16,32 @@ applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/
 ## Quick Start
 
 `emvc`, the command line interface to emvc, can be used to generate a
-starter application.  To use it, install emvc globally.
+starter application.  To use it, install the `emvc-generator` package globally.
 
-    $ npm install emvc -g
+    $ npm install emvc-generator -g
 
 Next, create an application and install dependencies.
 
-    $ emvc create hello
+    $ emvc hello
     $ cd hello
     $ npm install
 
 Start the server.
 
-    $ emvc server
+    $ node server
 
 The application is available at [localhost:3000](http://localhost:3000).
 
 Start the server with node debug mode
 
-	$ emvc server --debug (node --debug mode)
-	$ emvc server --debug-brk (node --debug-brk mode)
+	$ node --debug server
+	$ node --debug-brk server
 
 Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application as usual.
 
 ## Guide
 
-The [emvc Guide](http://emvcjs.org/guide/) is the official source
+The [emvc Guide](http://emvc.github.io/emvc/guide/) is the official source
 for documentation, and is a handy reference to have available when developing
 web applications powered by emvc.
 
