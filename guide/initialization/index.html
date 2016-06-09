@@ -75,13 +75,13 @@ application is started:</p>
   <span class="keyword">this</span>.set(<span class="string">'view engine'</span>, <span class="string">'ejs'</span>);
 
   <span class="keyword">this</span>.use(poweredBy(<span class="string">'emvc'</span>));
-  <span class="keyword">this</span>.use(express.logger());
-  <span class="keyword">this</span>.use(express.static(__dirname + <span class="string">'/../../public'</span>));
-  <span class="keyword">this</span>.use(express.cookieParser());
-  <span class="keyword">this</span>.use(express.bodyParser());
-  <span class="keyword">this</span>.use(express.session({ secret: <span class="string">'keyboard cat'</span> }));
+  <span class="keyword">this</span>.use(morgan(<span class="string">'combined'</span>));
+  <span class="keyword">this</span>.use(cookieParser());
+  <span class="keyword">this</span>.use(bodyParser());
+  <span class="keyword">this</span>.use(session({ secret: <span class="string">'keyboard cat'</span> }));
   <span class="keyword">this</span>.use(passport.initialize());
   <span class="keyword">this</span>.use(passport.session());
+  his.use(express.static(__dirname + <span class="string">'/../../public'</span>));
   <span class="keyword">this</span>.use(<span class="keyword">this</span>.router);
 }</code></pre>
 <p>Within the function, the <code>this</code> context is set to the application, which
