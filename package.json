@@ -1,6 +1,6 @@
 {
   "name": "emvc",
-  "version": "0.6.4-alpha",
+  "version": "0.7.0",
   "description": "Powerful MVC web framework for Node.js using Express",
   "keywords": [
     "express",
